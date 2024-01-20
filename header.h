@@ -33,7 +33,7 @@ class Person { // Parent class for all types of participants
     int secretNumber; // Secret number to use RNG to determine how the racer acts
     bool isFinished; // Keeps track of whether the racer has finished
   private:
-    char *name; // Used to allocate memory for the name of the racer
+    char *name; // Stores name of participant
 };
 
 class Snowmobiler: public Person {
@@ -44,9 +44,11 @@ class Snowmobiler: public Person {
     Snowmobiler operator=(const Snowmobiler& aSnowmobiler);
     ~Snowmobiler();
 
+    const char* getName() const; // Return name of participant
     void changeSpeed(const int secretNumber); // Changes the speed of the snowmobile depending on the number passed in
-  private:
+  protected:
     char *name;
+  private:
     int gasLevel; // Keeps track of gas level of the snowmobile
     int distanceTraveled; // Keeps track of distance traveled of the snowmobile
 };
@@ -64,30 +66,29 @@ class Snowboarder: public Person {
     void *setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
     int performTrick(int aNumber); // Performs a trick returning a score based on the number passed in
   protected:
-
-  private:
     string name;
+  private:
     Snowboarder *next; // Next node to attach nodes throughout LLL
 };
 
 class Skiier: public Person {
-  public: 
+  public:
     Skiier();
     Skiier(const string aName);
     Skiier(const Skiier& aSkiier);
     Skiier operator=(const Skiier& aSkiier);
     ~Skiier();
 
-
     const string getName() const; // Return name of participant
     Skiier *getNext(); // Returns next Skiier from CLL
     void SetNext(Skiier *aSkiier); // Sets next Skiier node attached to this node
     Skiier *getPrev(); // Returns previous Skiier from CLL
     void setPrev(Skiier *aSkiier); // Sets previous Skiier node attached to this node
-  private:
+  protected:
     string name;
     Skiier *next; // Next node to attach nodes through CLL
     Skiier *prev; // Previous node to attach nodes through CLL
+  private:
 };
 
 

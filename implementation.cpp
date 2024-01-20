@@ -82,17 +82,22 @@ Snowmobiler Snowmobiler::operator=(const Snowmobiler& aSnowmobiler) {
 Snowmobiler::~Snowmobiler() {
 }
 
-Snowboarder::Snowboarder(): {
+const char * Snowmobiler::getName() const {
+  if(name == nullptr) return ""; // Doesn't seem necessary but if you std::cout a nullptr, the output stream will be disabled.
+  else return name; // If name set return their name
+}
+
+Snowboarder::Snowboarder() {
   this->name = "";
   this->next = nullptr;
 }
 
-Snowboarder::Snowboarder(const char* aName): Person(aName) {
+Snowboarder::Snowboarder(const string aName) {
   this->name = aName;
   this->next = nullptr;
 }
 
-Snowboarder::Snowboarder(const Snowboarder& aSnowboarder): Person(aSnowboarder) {
+Snowboarder::Snowboarder(const Snowboarder& aSnowboarder) {
   this->name = aSnowboarder.name;
   this->next= nullptr;
 }
@@ -101,7 +106,7 @@ Snowboarder::~Snowboarder() {
 
 }
 
-const string Snowboarder::getName() {
+const string Snowboarder::getName() const {
   return name;
 }
 
@@ -109,19 +114,19 @@ Snowboarder * Snowboarder::getNext() {
   return this->next;
 }
 
-Skiier::Skiier(): {
+Skiier::Skiier() {
   this->name = "";
   this->next = nullptr;
   this->prev = nullptr;
 }
 
-Skiier::Skiier(const string aName): {
+Skiier::Skiier(const string aName) {
   this->name = aName;
   this->next = nullptr;
   this->prev = nullptr;
 }
 
-Skiier::Skiier(const Skiier& aSkiier): {
+Skiier::Skiier(const Skiier& aSkiier) {
   this->name = aSkiier.name;
   this->next = nullptr;
   this->prev = nullptr;
@@ -131,7 +136,7 @@ Skiier::~Skiier() {
 
 }
 
-const string Skiier::getName() {
+const string Skiier::getName() const {
   return name;
 }
 

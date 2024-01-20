@@ -4,6 +4,10 @@ int main() {
   
   MobileRace aRace;
 
+  Snowboarder aSnowboarder;
+
+  Snowmobiler aSnowmobiler;
+
   Skiier aSkiier("test");
 
   Skiier aSkiier2(aSkiier);
