@@ -31,9 +31,9 @@ class Person { // Parent class for all types of participants
     const bool getFinished() const; // Return whether or not the racer has finished the race
   protected:
     int secretNumber; // Secret number to use RNG to determine how the racer acts
-    char *name; // Used to allocate memory for the name of the racer
     bool isFinished; // Keeps track of whether the racer has finished
   private:
+    char *name; // Used to allocate memory for the name of the racer
 };
 
 class Snowmobiler: public Person {
@@ -46,6 +46,7 @@ class Snowmobiler: public Person {
 
     void changeSpeed(const int secretNumber); // Changes the speed of the snowmobile depending on the number passed in
   private:
+    char *name;
     int gasLevel; // Keeps track of gas level of the snowmobile
     int distanceTraveled; // Keeps track of distance traveled of the snowmobile
 };
@@ -53,33 +54,38 @@ class Snowmobiler: public Person {
 class Snowboarder: public Person {
   public: 
     Snowboarder();
-    Snowboarder(const char *aName);
+    Snowboarder(const string aName);
     Snowboarder(const Snowboarder& aSnowboarder);
     Snowboarder operator=(const Snowboarder& aSnowboarder);
     ~Snowboarder();
 
+    const string getName() const; // Return name of participant 
     Snowboarder *getNext(); // Retrieves the next snowboarder as they are attached through a LLL
     void *setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
     int performTrick(int aNumber); // Performs a trick returning a score based on the number passed in
   protected:
 
   private:
+    string name;
     Snowboarder *next; // Next node to attach nodes throughout LLL
 };
 
 class Skiier: public Person {
   public: 
     Skiier();
-    Skiier(const char *aName);
+    Skiier(const string aName);
     Skiier(const Skiier& aSkiier);
     Skiier operator=(const Skiier& aSkiier);
     ~Skiier();
 
+
+    const string getName() const; // Return name of participant
     Skiier *getNext(); // Returns next Skiier from CLL
     void SetNext(Skiier *aSkiier); // Sets next Skiier node attached to this node
     Skiier *getPrev(); // Returns previous Skiier from CLL
     void setPrev(Skiier *aSkiier); // Sets previous Skiier node attached to this node
   private:
+    string name;
     Skiier *next; // Next node to attach nodes through CLL
     Skiier *prev; // Previous node to attach nodes through CLL
 };

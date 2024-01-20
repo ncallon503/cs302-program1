@@ -59,8 +59,7 @@ Race::Race() {
 Race::~Race() {
 }
 
-Snowmobiler::Snowmobiler() {
-  Person();
+Snowmobiler::Snowmobiler(): Person() {
   gasLevel = 100;
   distanceTraveled = 0;
 }
@@ -83,15 +82,18 @@ Snowmobiler Snowmobiler::operator=(const Snowmobiler& aSnowmobiler) {
 Snowmobiler::~Snowmobiler() {
 }
 
-Snowboarder::Snowboarder(): Person() {
+Snowboarder::Snowboarder(): {
+  this->name = "";
   this->next = nullptr;
 }
 
 Snowboarder::Snowboarder(const char* aName): Person(aName) {
+  this->name = aName;
   this->next = nullptr;
 }
 
 Snowboarder::Snowboarder(const Snowboarder& aSnowboarder): Person(aSnowboarder) {
+  this->name = aSnowboarder.name;
   this->next= nullptr;
 }
 
@@ -99,27 +101,38 @@ Snowboarder::~Snowboarder() {
 
 }
 
+const string Snowboarder::getName() {
+  return name;
+}
+
 Snowboarder * Snowboarder::getNext() {
   return this->next;
 }
 
-Skiier::Skiier(): Person() {
+Skiier::Skiier(): {
+  this->name = "";
   this->next = nullptr;
   this->prev = nullptr;
 }
 
-Skiier::Skiier(const char* aName): Person(aName) {
+Skiier::Skiier(const string aName): {
+  this->name = aName;
   this->next = nullptr;
   this->prev = nullptr;
 }
 
-Skiier::Skiier(const Skiier& aSkiier): Person(aSkiier) {
+Skiier::Skiier(const Skiier& aSkiier): {
+  this->name = aSkiier.name;
   this->next = nullptr;
   this->prev = nullptr;
 }
 
 Skiier::~Skiier() {
 
+}
+
+const string Skiier::getName() {
+  return name;
 }
 
 MobileRace::MobileRace(): Race() {
