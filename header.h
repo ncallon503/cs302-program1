@@ -31,7 +31,6 @@ public:
   const bool getFinished() const; // Return whether or not the racer has finished the race
 protected:
   int secretNumber; // Secret number to use RNG to determine how the racer acts
-  char *name;       // Used to allocate memory for the name of the racer
   bool isFinished;  // Keeps track of whether the racer has finished
 private:
   char *name; // Stores name of participant
@@ -49,37 +48,36 @@ public:
   const char *getName() const;              // Return name of participant
   void changeSpeed(const int secretNumber); // Changes the speed of the snowmobile depending on the number passed in
 protected:
-  char *name;
-
 private:
   int gasLevel;         // Keeps track of gas level of the snowmobile
   int distanceTraveled; // Keeps track of distance traveled of the snowmobile
+  char *name;
 };
 
 class Snowboarder : public Person
 {
 public:
   Snowboarder();
-  Snowboarder(const char *aName);
+  Snowboarder(const string aName);
   Snowboarder(const Snowboarder &aSnowboarder);
   Snowboarder operator=(const Snowboarder &aSnowboarder);
   ~Snowboarder();
 
+  const string getName() const;
   Snowboarder *getNext();                   // Retrieves the next snowboarder as they are attached through a LLL
   void *setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
   int performTrick(int aNumber);            // Performs a trick returning a score based on the number passed in
 protected:
-  string name;
-
 private:
   Snowboarder *next; // Next node to attach nodes throughout LLL
+  string name;
 };
 
 class Skiier : public Person
 {
 public:
   Skiier();
-  Skiier(const char *aName);
+  Skiier(const string aName);
   Skiier(const Skiier &aSkiier);
   Skiier operator=(const Skiier &aSkiier);
   ~Skiier();
