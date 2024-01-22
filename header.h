@@ -27,7 +27,7 @@ public:
   ~Person();                               // Destructor
 
   const char *getName() const;    // Return name of participant
-  void setFinished();             // Declare that the racer has finished the race
+  bool setFinished();             // Declare that the racer has finished the race
   const bool getFinished() const; // Return whether or not the racer has finished the race
 protected:
   int secretNumber; // Secret number to use RNG to determine how the racer acts
@@ -84,7 +84,7 @@ public:
 
   const string getName() const;  // Return name of participant
   Skiier *getNext();             // Returns next Skiier from CLL
-  void SetNext(Skiier *aSkiier); // Sets next Skiier node attached to this node
+  void setNext(Skiier *aSkiier); // Sets next Skiier node attached to this node
   Skiier *getPrev();             // Returns previous Skiier from CLL
   void setPrev(Skiier *aSkiier); // Sets previous Skiier node attached to this node
 protected:

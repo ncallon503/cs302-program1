@@ -53,9 +53,15 @@ const char *Person::getName() const
     return name; // If name set return their name
 }
 
-void Person::setFinished()
+bool Person::setFinished()
 {
-  isFinished = true;
+  if(isFinished) {
+    cout << this->name << " has already finished.\n";
+    return false;
+  } else {
+    isFinished = true;
+    return true;
+  }
 }
 
 const bool Person::getFinished() const
@@ -173,6 +179,22 @@ const string Skiier::getName() const
   return name;
 }
 
+Skiier * Skiier::getNext() {
+  return this->next;
+}
+
+Skiier * Skiier::getPrev() {
+  return this->prev;
+}
+
+void Skiier::setNext(Skiier * aSkiier) {
+  this->next = aSkiier;
+}
+
+void Skiier::setPrev(Skiier * aSkiier) {
+  this->prev = aSkiier;
+}
+
 MobileRace::MobileRace() : Race()
 {
 }
@@ -191,9 +213,35 @@ BoarderRace::BoarderRace()
 {
 }
 
+BoarderRace::BoarderRace(const Snowboarder * snowboarderHead)
+{
+}
+
 BoarderRace::~BoarderRace()
 {
   Snowboarder *traverser, *forward = nullptr;
+  traverser = this->head;
+  forward = this->head->getNext();
+  while (traverser != nullptr)
+  {
+    delete traverser;
+    traverser = forward;
+    forward = forward->getNext();
+  }
+}
+
+
+SkiierRace::SkiierRace()
+{
+}
+
+SkiierRace::SkiierRace(const Skiier * skiierHead)
+{
+}
+
+SkiierRace::~SkiierRace()
+{
+  Skiier *traverser, *forward = nullptr;
   traverser = this->head;
   forward = this->head->getNext();
   while (traverser != nullptr)

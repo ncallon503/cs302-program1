@@ -2,6 +2,8 @@
 
 int main() {
   
+  Snowboarder aSnowboarer0("test");
+
   MobileRace aRace;
 
   Snowboarder aSnowboarder;
