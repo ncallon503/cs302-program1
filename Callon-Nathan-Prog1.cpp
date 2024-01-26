@@ -4,15 +4,32 @@ int main() {
   
   Snowboarder aSnowboarer0("test");
 
+  Snowmobiler aSnowmobiler("testtest\n");
+
+  cout << "the name: " << aSnowmobiler.getName() << "\n\n\n\n";
+
   MobileRace aRace;
+
+  aRace.addRacer("test 123");
+
+  BoarderRace aBoard;
+  
+  SkiierRace aSki;
+
+  Skiier *aSkiier = new Skiier("a name");
+
+  aSki.addSkiier("a skiier");
+  aSki.addSkiier("a skiier2");
+  aSki.addSkiier("a skiier3");
+
+  //aSki.addSkiier("skiier1");
 
   Snowboarder aSnowboarder;
 
-  Snowmobiler aSnowmobiler;
 
-  Skiier aSkiier("test");
+  // Skiier aSkiier("test");
 
-  Skiier aSkiier2(aSkiier);
+  Skiier aSkiier2(*aSkiier);
 
   Skiier aSkiier3 = aSkiier2;
 
@@ -30,6 +47,8 @@ int main() {
   Person person2;
 
   delete [] name;
+
+  delete aSkiier;
 
   return 0;
 }

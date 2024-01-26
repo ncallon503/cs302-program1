@@ -65,7 +65,7 @@ public:
 
   const string getName() const;
   Snowboarder *getNext();                   // Retrieves the next snowboarder as they are attached through a LLL
-  void *setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
+  void setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
   int performTrick(int aNumber);            // Performs a trick returning a score based on the number passed in
 protected:
 private:
@@ -116,10 +116,9 @@ class MobileRace : public Race
 {
 public:
   MobileRace();                                       // Default constructor will call parent constructor and initialize empty vector of racers
-  MobileRace(const vector<Snowmobiler> snowmobilers); // This constructor is same as default but will pre-build the racers
   ~MobileRace();
-  void addRacer(const Snowmobiler &aSnowmobiler); // This is for adding snowmobilers to the race
-  // After MobileRace has already been initialized
+
+  void addRacer(const char * aName); // This is for adding snowmobilers to the race
 
   bool startRace();
   bool endRace();
@@ -133,10 +132,11 @@ private:
 class BoarderRace : public Race
 {
 public:
-  BoarderRace();                                   // Default constructor will call parent constructor and have an empty head pointer of LLL of racers
-  BoarderRace(const Snowboarder *snowboarderHead); // This constructor is same as default but will pre-build the racers
-  ~BoarderRace();
-  void addRacer(const Snowboarder &aSnowboarder); // Adds a racer to the tail end
+  BoarderRace(); // Default constructor will call parent constructor and have an empty head pointer of LLL of racers
+  ~BoarderRace(); // Dellocates the LLL of racers
+ 
+  void addSnowboarder(const char *aName);
+
   bool startRace();
   bool endRace();
   Person determineWinner(); // Determines the winner based on the highest score from tricks
@@ -150,8 +150,9 @@ class SkiierRace : public Race
 {
 public:
   SkiierRace();                         // Default constructor will call parent constructor and have an empty head pointer of CLL of racers
-  SkiierRace(const Skiier *skiierHead); // This constructor is same as default but will pre-build the racers
   ~SkiierRace();
+
+  void addSkiier(const string aName);
 
   bool startRace();
   bool endRace();
