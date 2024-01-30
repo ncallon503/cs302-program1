@@ -11,6 +11,7 @@ Person::Person(const char *aName)
   this->name = new char[strlen(aName) + 1]; // Allocate separate memory for Person's name
   strcpy(this->name, aName);                // Copy characters from other name to Person's name
   this->isFinished = false;
+  this->secretNumber = rand() % 1000 + 1;
 }
 
 Person::Person(const Person &aPerson)
@@ -23,6 +24,7 @@ Person::Person(const Person &aPerson)
     strcpy(this->name, aPerson.name); // Otherwise set it to their name
   }
   this->isFinished = aPerson.isFinished;
+  this->secretNumber = aPerson.secretNumber;
 }
 
 Person Person::operator=(const Person &aPerson)
@@ -83,26 +85,35 @@ Race::~Race()
 {
 }
 
-Snowmobiler::Snowmobiler(): Person(), name(nullptr)
+Snowmobiler::Snowmobiler(): Person()
 {
+  this->name = nullptr;
   gasLevel = 100;
   distanceTraveled = 0;
 }
 
-Snowmobiler::Snowmobiler(const Snowmobiler &aSnowmobiler): Person(aSnowmobiler), name(nullptr)
+Snowmobiler::Snowmobiler(const Snowmobiler &aSnowmobiler): Person(aSnowmobiler)
 {
   if(aSnowmobiler.name == nullptr) this->name = nullptr;
   else {
     this->name = new char[strlen(aSnowmobiler.name) + 1];
     strcpy(this->name, aSnowmobiler.name);
   }
-
+  gasLevel = aSnowmobiler.gasLevel;
+  distanceTraveled = aSnowmobiler.distanceTraveled;
 }
 
-Snowmobiler::Snowmobiler(const char * aName) {
-  this->name = new char[strlen(aName) + 1]; // Allocate separate memory for Person's name
-  strcpy(this->name, aName);                // Copy characters from other name to Person's name
-  this->isFinished = false;
+Snowmobiler::Snowmobiler(const char * aName): Person(aName)
+{
+  if (aName == nullptr)
+    this->name = nullptr; // If other person does not have a name set name to null
+  else
+  {
+    this->name = new char[strlen(aName) + 1];
+    strcpy(this->name, aName); // Otherwise set it to their name
+  }
+  this->gasLevel = 100;
+  this->distanceTraveled = 0;
 }
 
 Snowmobiler Snowmobiler::operator=(const Snowmobiler &aSnowmobiler)
@@ -111,18 +122,21 @@ Snowmobiler Snowmobiler::operator=(const Snowmobiler &aSnowmobiler)
     this->name = nullptr; // If other person does not have a name set name to null
   else
   {
+    delete [] this->name;
     this->name = new char[strlen(aSnowmobiler.name) + 1];
     strcpy(this->name, aSnowmobiler.name); // Otherwise set it to their name
   }
   this->gasLevel = aSnowmobiler.gasLevel;
   this->secretNumber = aSnowmobiler.secretNumber;
+  this->isFinished = aSnowmobiler.isFinished;
   return *this;
 }
 
 Snowmobiler::~Snowmobiler()
 {
-  if(this->name != nullptr) {
-    delete [] name;
+  if(this->name) { // Technically has a different name than Person()'s name because of Person's private scope, so we do still need to deallocate
+    delete [] this->name;
+    this->name = nullptr;
   }
 }
 
@@ -134,22 +148,36 @@ const char *Snowmobiler::getName() const
     return name; // If name set return their name
 }
 
-Snowboarder::Snowboarder()
+Snowboarder::Snowboarder(): Person()
 {
   this->name = "";
   this->next = nullptr;
+  this->score = 0;
 }
 
-Snowboarder::Snowboarder(const string aName)
+Snowboarder::Snowboarder(const string aName): Person()
 {
   this->name = aName;
   this->next = nullptr;
+  this->score = 0;
 }
 
-Snowboarder::Snowboarder(const Snowboarder &aSnowboarder)
+Snowboarder::Snowboarder(const Snowboarder &aSnowboarder): Person(aSnowboarder)
 {
   this->name = aSnowboarder.name;
+  this->score = aSnowboarder.score;
   this->next = nullptr;
+}
+
+Snowboarder Snowboarder::operator=(const Snowboarder &aSnowboarder)
+{
+  if(this == &aSnowboarder) return *this;
+  this->secretNumber = aSnowboarder.secretNumber;
+  this->isFinished = aSnowboarder.isFinished;
+  this->score = aSnowboarder.score;
+  this->name = aSnowboarder.name;
+  this->next = nullptr; //  Due to volatile activities we will set next pointer to null and manually assign it rather than having this "deep" copy point to another Snowboarder that might not know about it
+  return *this;
 }
 
 Snowboarder::~Snowboarder()
@@ -171,26 +199,34 @@ void Snowboarder::setNext(Snowboarder *aSnowboarder) {
   this->next = aSnowboarder;
 }
 
-Skiier::Skiier()
+Skiier::Skiier(): Person()
 {
   this->name = "";
   this->next = nullptr;
-  this->prev = nullptr;
 }
 
-Skiier::Skiier(const string aName)
+Skiier::Skiier(const string aName): Person()
 {
   this->name = aName;
   this->next = nullptr;
-  this->prev = nullptr;
 }
 
-Skiier::Skiier(const Skiier &aSkiier)
+Skiier::Skiier(const Skiier &aSkiier): Person(aSkiier)
 {
   this->name = aSkiier.name;
   this->next = nullptr;
-  this->prev = nullptr;
 }
+
+Skiier Skiier::operator=(const Skiier &aSkiier)
+{
+  if(this == &aSkiier) return *this;
+  this->secretNumber = aSkiier.secretNumber;
+  this->isFinished = aSkiier.isFinished;
+  this->name = aSkiier.name;
+  this->next = nullptr; //  Due to volatile activities we will set next pointer to null and manually assign it rather than having this "deep" copy point to another Snowboarder that might not know about it
+  return *this;
+}
+
 
 Skiier::~Skiier()
 {
@@ -205,16 +241,8 @@ Skiier * Skiier::getNext() {
   return this->next;
 }
 
-Skiier * Skiier::getPrev() {
-  return this->prev;
-}
-
 void Skiier::setNext(Skiier * aSkiier) {
   this->next = aSkiier;
-}
-
-void Skiier::setPrev(Skiier * aSkiier) {
-  this->prev = aSkiier;
 }
 
 MobileRace::MobileRace() : Race()
@@ -225,8 +253,13 @@ MobileRace::~MobileRace()
 {
 }
 
-void MobileRace::addRacer(const char * aName) {
+bool MobileRace::addSnowmobiler(const char * aName) {
+  if(aName == nullptr || (strncmp(aName, "", 10) == 0)) {
+    cout << "Snowmobiler must have a name that is not empty.\n";
+    return false;
+  }
   racers.insert(racers.begin(), Snowmobiler(aName));
+  return true;
 }
 
 BoarderRace::BoarderRace()
@@ -249,7 +282,11 @@ BoarderRace::~BoarderRace()
   }
 }
 
-void BoarderRace::addSnowboarder(const char * aName) {
+bool BoarderRace::addSnowboarder(const string aName) {
+  if(aName == "") {
+    cout << "Snowboarder must have a name that is not empty.\n";
+    return false;
+  }
   if(!head) {
     this->head = new Snowboarder(aName);
   } else {
@@ -258,6 +295,7 @@ void BoarderRace::addSnowboarder(const char * aName) {
     traverser = traverser->getNext();
     traverser->setNext(new Snowboarder(aName));
   }
+  return true;
 }
 
 SkiierRace::SkiierRace()
@@ -293,21 +331,21 @@ SkiierRace::~SkiierRace()
 }
 }
 
-void SkiierRace::addSkiier(const string aName) {
+bool SkiierRace::addSkiier(const string aName) {
+  if(aName == "") {
+    cout << "Skiier must have a name that is not empty.\n";
+    return false;
+  }
   Skiier *aSkiier = new Skiier(aName);
   if(!head) {
     this->head = aSkiier;
-    this->head->setPrev(this->head); // Points to itself to make circular
     this->head->setNext(this->head); 
   } else if (this->head->getNext() == this->head) { // If only head exists
       this->head->setNext(aSkiier);
-      this->head->setPrev(aSkiier);
       aSkiier->setNext(this->head);
-      aSkiier->setPrev(this->head);
   } else { // 2 or more nodes, will insert in between head and head's node right after
       aSkiier->setNext(this->head->getNext());
-      aSkiier->setPrev(this->head);
-      this->head->getNext()->setPrev(aSkiier); 
       this->head->setNext(aSkiier);
   }
+  return true;
 }

@@ -1,16 +1,42 @@
 #include "header.h"
 
 int main() {
+
+  string input = "-1";
+
+  cout << "\nWelcome to the Winter Olympics! Which race would you like to spectate today? \n";
+  
+  while((input != "1") && (input != "2") && (input != "3") && (input != "0"))
+  {
+    cout << "Please enter one of the correct following options.\n\n";
+    cout << "1. The Yearly Snowmobiler Distance Competition\n" << 
+    "2. The Seasonal Snowboarder Showoff\n" << 
+    "3. The exciting Skiier Race and Obstacle Course\n" <<
+    "0. I'd rather relax in the cabins (Exit)\n\n";
+
+    cin >> input;
+  }
+
+
+
+  Skiier testSkiier;
+  Skiier testSkiier2 = testSkiier;
+
+  Snowboarder testSnowboarder("testSnowboarder");
+  Snowboarder testSnowboarder2 = testSnowboarder;
+
+  cout << testSnowboarder2.getName() << "\n";
   
   Snowboarder aSnowboarer0("test");
 
   Snowmobiler aSnowmobiler("testtest\n");
+  Snowmobiler Snowmobiler2 = aSnowmobiler;
 
   cout << "the name: " << aSnowmobiler.getName() << "\n\n\n\n";
 
   MobileRace aRace;
 
-  aRace.addRacer("test 123");
+  aRace.addSnowmobiler("test 123");
 
   BoarderRace aBoard;
   
