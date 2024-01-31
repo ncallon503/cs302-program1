@@ -49,7 +49,7 @@ public:
   int accelerate(const int secretNumber); // Changes the speed of the snowmobile depending on the number passed in
   int nitroBoost(const int secretNumber); // Does a nitrous boost for long distance but can fail and stall the engine, disqualifying the Snowmobiler
   const bool isEngineStalled() const; // Returns whether or not the engine is stalled (disqualifying the Snowmobiler)
-  const bool outOfGas() const; // Returns whether or not the gas level is below 15 (which deems the Snowmobiler out of gas)
+  const bool outOfGas() const; // Returns whether or not the gas level is below 15 (which deems the Snowmobiler out of gas), doesn't disqualify just means they are done progressing
 protected:
 private:
   int gasLevel;         // Keeps track of gas level of the snowmobile
@@ -68,8 +68,8 @@ public:
   ~Snowboarder();
 
   const string getName() const;
-  Snowboarder *getNext();                   // Retrieves the next snowboarder as they are attached through a LLL
-  void setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
+  Snowboarder * getNext();                   // Retrieves the next snowboarder as they are attached through a LLL
+  bool setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
   int performTrick(int aNumber);            // Performs a trick returning a score based on the number passed in
   bool attemptKnockover(); // Attempts to knock over next racer in LLL-fashion
   bool setDisqualified();
@@ -94,8 +94,8 @@ public:
   ~Skiier();
 
   const string getName() const;  // Return name of participant
-  Skiier *getNext();             // Returns next Skiier from CLL
-  void setNext(Skiier *aSkiier); // Sets next Skiier node attached to this node
+  Skiier * getNext();             // Returns next Skiier from CLL
+  bool setNext(Skiier * aSkiier); // Sets next Skiier node attached to this node
 
   int navigateTerrain(int aNumber); // Navigates the mountain based on the RNG of the race track and unlike snowboarders' action, the Skiier can crash and disqualify itself
   bool attemptKnockover(); // Attempts to knock over next racer in CLL-fashion
@@ -135,14 +135,17 @@ public:
   ~MobileRace();
 
   bool addSnowmobiler(const char * aName); // This is for adding snowmobilers to the race
+  bool remove(const char * aName);
+  bool removeAll();
+  bool display();
 
   bool startRace();
   bool endRace();
   Snowmobiler determineWinner(); // Determines the winner based on the furthest distance traveled
 protected:
-  vector<Snowmobiler> racers; // The snowmobile race will have the racers stored in a vector
 
 private:
+  vector<Snowmobiler> racers; // The snowmobile race will have the racers stored in a vector
 };
 
 class BoarderRace : public Race
@@ -154,14 +157,20 @@ public:
   ~BoarderRace(); // Dellocates the LLL of racers
  
   bool addSnowboarder(const string aName);
+  bool remove(const string aName);
+  bool removeAll();
+  bool display();
 
   bool startRace();
   bool endRace();
   Snowboarder determineWinner(); // Determines the winner based on the highest score from tricks
 protected:
-  Snowboarder *head; // Head pointer to linear linked list of snowboarders
+  bool remove(const string aName, Snowboarder *curr, Snowboarder *temp);
+  bool removeAll(Snowboarder *curr);
+  bool display(Snowboarder *curr);
 
 private:
+  Snowboarder *head; // Head pointer to linear linked list of snowboarders
 };
 
 class SkiierRace : public Race
@@ -173,14 +182,20 @@ public:
   ~SkiierRace();
 
   bool addSkiier(const string aName);
+  bool remove(const string aName);
+  bool removeAll();
+  bool display();
 
   bool startRace();
   bool endRace();
   Skiier determineWinner(); // Determines a winner based on who finished first
 protected:
-  Skiier *head; // Head pointer to circular linked list of skiiers
+  bool remove(const string aName, Skiier *curr, Skiier *temp);
+  bool removeAll(Skiier *head);
+  bool display(Skiier *curr);
 
 private:
+  Skiier *head; // Head pointer to circular linked list of skiiers
 };
 
 #endif // _SNOW_

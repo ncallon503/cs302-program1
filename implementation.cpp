@@ -189,14 +189,15 @@ const string Snowboarder::getName() const
   return name;
 }
 
-Snowboarder *Snowboarder::getNext()
+Snowboarder * Snowboarder::getNext()
 {
   if(this->next) return this->next;
   else return nullptr;
 }
 
-void Snowboarder::setNext(Snowboarder *aSnowboarder) {
+bool Snowboarder::setNext(Snowboarder *aSnowboarder) {
   this->next = aSnowboarder;
+  return true;
 }
 
 Skiier::Skiier(): Person()
@@ -241,8 +242,9 @@ Skiier * Skiier::getNext() {
   return this->next;
 }
 
-void Skiier::setNext(Skiier * aSkiier) {
+bool Skiier::setNext(Skiier * aSkiier) {
   this->next = aSkiier;
+  return true;
 }
 
 MobileRace::MobileRace() : Race()
@@ -251,6 +253,7 @@ MobileRace::MobileRace() : Race()
 
 MobileRace::~MobileRace()
 {
+  removeAll();
 }
 
 bool MobileRace::addSnowmobiler(const char * aName) {
@@ -262,6 +265,34 @@ bool MobileRace::addSnowmobiler(const char * aName) {
   return true;
 }
 
+
+bool MobileRace::remove(const char * aName) {
+  int indexToRemove = -1;
+  for(long unsigned int i = 0; i < racers.size(); i++) {
+    if(strcmp(racers[i].getName(), aName) == 0) indexToRemove = i;
+  }
+  if(indexToRemove == -1) {
+    cout << "Snowboarder not found to remove.\n";
+    return false;
+  }
+  racers.erase(racers.begin() + indexToRemove);
+  return true;
+}
+
+bool MobileRace::removeAll() {
+  if(racers.size() == 0) return false;
+  racers.clear();
+  return true;
+}
+
+bool MobileRace::display() {
+  if(racers.size() == 0) return false;
+  for(long unsigned int i = 0; i < racers.size(); i++)
+    cout << "Welcome Snowmobiler " << racers[i].getName() << "!\n";
+  return true;
+}
+
+
 BoarderRace::BoarderRace()
 {
   this->head = nullptr;
@@ -269,17 +300,7 @@ BoarderRace::BoarderRace()
 
 BoarderRace::~BoarderRace()
 {
-  Snowboarder *traverser, *forward = nullptr;
-  if(head) {
-    traverser = this->head;
-    forward = this->head->getNext();
-    while (traverser != nullptr)
-    {
-      delete traverser;
-      traverser = forward;
-      if(forward) forward = forward->getNext();
-    }
-  }
+  removeAll();
 }
 
 bool BoarderRace::addSnowboarder(const string aName) {
@@ -298,6 +319,51 @@ bool BoarderRace::addSnowboarder(const string aName) {
   return true;
 }
 
+bool BoarderRace::remove(const string aName) {
+  return remove(aName, this->head, this->head->getNext());
+}
+
+bool BoarderRace::remove(const string aName, Snowboarder *curr, Snowboarder *temp) {
+  if(!head) return false; // No head node
+  if(temp == head) {
+    if(curr->getName() == aName) { // Head is only node
+      delete head;
+      head = nullptr;
+      return true;
+    } else return false;
+  }
+if(temp->getName() == aName)
+  {
+    curr->setNext(temp->getNext());
+    delete temp;
+    return true;
+  }
+  return remove(aName, curr->getNext(), temp->getNext());
+}
+
+bool BoarderRace::removeAll() {
+  return removeAll(head);
+}
+
+bool BoarderRace::removeAll(Snowboarder *curr) {
+  if(!head) return true;
+  if(!curr) return true;
+  Snowboarder *tmp = curr;
+  curr = curr->getNext();
+  delete tmp;
+  return removeAll(curr);
+}
+
+bool BoarderRace::display() {
+  return display(head);
+}
+
+bool BoarderRace::display(Snowboarder *head) {
+  if(!head) return true;
+  cout << "Welcome Snowboarder " << head->getName();
+  return display(head->getNext());
+}
+
 SkiierRace::SkiierRace()
 {
   this->head = nullptr;
@@ -305,30 +371,7 @@ SkiierRace::SkiierRace()
 
 SkiierRace::~SkiierRace()
 {
-  if(head) {
-  
-    if(this->head->getNext() == this->head) { // If head is only node
-      delete this->head;
-      return;
-    } else if (this->head->getNext()->getNext() == this->head) { // If only 2 nodes
-      delete this->head->getNext();
-      delete this->head;
-    } else { // If  3 or more nodes
-    
-    Skiier *temp, *current;
-    current = head->getNext();
-    
-    while(current != head) {
-      temp = current->getNext();
-      delete current;
-      current = temp;
-    }
-
-    delete this->head;
-    this->head = nullptr;
-
-  }
-}
+  this->removeAll();
 }
 
 bool SkiierRace::addSkiier(const string aName) {
@@ -349,3 +392,60 @@ bool SkiierRace::addSkiier(const string aName) {
   }
   return true;
 }
+
+bool SkiierRace::remove(const string aName) {
+  return remove(aName, this->head, this->head->getNext());
+}
+
+bool SkiierRace::remove(const string aName, Skiier *curr, Skiier *temp) {
+  if(!head) return false; // No head node
+  if(temp == head) {
+    if(curr->getName() == aName) { // Head is only node
+      delete head;
+      head = nullptr;
+      return true;
+    } else return false;
+  }
+  if(temp->getName() == aName)
+    {
+      curr->setNext(temp->getNext());
+      delete temp;
+      return true;
+    }
+  return remove(aName, curr->getNext(), temp->getNext());
+}
+
+bool SkiierRace::removeAll() {
+  removeAll(head);
+  head = nullptr;
+  return true;
+}
+
+bool SkiierRace::removeAll(Skiier *head) {
+  if(!head) return true; // no head
+  if(head->getNext() == head) { // head points to itself
+    delete head;
+    head = nullptr;
+    return true;
+  }
+  Skiier *curr = head->getNext(); // Set to next of head, not head if 2 nodes, to not delete the tail (itself)
+  head->setNext(head->getNext()->getNext());
+  delete curr;
+  return removeAll(head);
+}
+
+bool SkiierRace::display() {
+  if(!head) return false;
+  return display(head);
+}
+
+bool SkiierRace::display(Skiier *curr) {
+  if(!head) return false; // base case 1
+  if(curr->getNext() == head) { //base case 2
+    cout << "Welcome Skiier " << curr->getName() << "!\n";
+    return true;
+  }
+  cout << "Welcome Skiier " << curr->getName() << "!\n";
+  return display(curr->getNext());
+}
+
