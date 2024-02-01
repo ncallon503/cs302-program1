@@ -1,4 +1,5 @@
-#include "header.h"
+#include "Racers.h"
+#include "Races.h"
 
 int main() {
 
