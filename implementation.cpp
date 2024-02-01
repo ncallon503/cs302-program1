@@ -76,7 +76,6 @@ const bool Person::getFinished() const
 
 Race::Race()
 {
-  secretNumber = rand() % 1000 + 1; // Generates random number between 1 and 1000
   hasStarted = false;               // Sets race to not started
   isFinished = false;               // Sets race to not finished
 }
@@ -204,18 +203,24 @@ Skiier::Skiier(): Person()
 {
   this->name = "";
   this->next = nullptr;
+  this->timeCompleted = 0;
+  this->isDisqualified = false;
 }
 
 Skiier::Skiier(const string aName): Person()
 {
   this->name = aName;
   this->next = nullptr;
+  this->timeCompleted = 0;
+  this->isDisqualified = false;
 }
 
 Skiier::Skiier(const Skiier &aSkiier): Person(aSkiier)
 {
   this->name = aSkiier.name;
   this->next = nullptr;
+  this->timeCompleted = 0;
+  this->isDisqualified = false;
 }
 
 Skiier Skiier::operator=(const Skiier &aSkiier)
@@ -223,6 +228,8 @@ Skiier Skiier::operator=(const Skiier &aSkiier)
   if(this == &aSkiier) return *this;
   this->secretNumber = aSkiier.secretNumber;
   this->isFinished = aSkiier.isFinished;
+  this->timeCompleted = aSkiier.timeCompleted;
+  this->isDisqualified = aSkiier.isDisqualified;
   this->name = aSkiier.name;
   this->next = nullptr; //  Due to volatile activities we will set next pointer to null and manually assign it rather than having this "deep" copy point to another Snowboarder that might not know about it
   return *this;
@@ -245,6 +252,10 @@ Skiier * Skiier::getNext() {
 bool Skiier::setNext(Skiier * aSkiier) {
   this->next = aSkiier;
   return true;
+}
+
+const int Skiier::getTime() const {
+  return timeCompleted;
 }
 
 MobileRace::MobileRace() : Race()
@@ -360,8 +371,26 @@ bool BoarderRace::display() {
 
 bool BoarderRace::display(Snowboarder *head) {
   if(!head) return true;
-  cout << "Welcome Snowboarder " << head->getName();
+  cout << "Welcome Snowboarder " << head->getName() << "!\n";
   return display(head->getNext());
+}
+
+bool BoarderRace::displayWinner() {
+  if(!head) return false;
+  Snowboarder *winner = displayWinner(head, head);
+  cout << "\nThe winner of the Snowboarder Competition is " << winner->getName() << " with a score " <<
+  "of " << winner->getScore() << "!\n";
+  return true;
+}
+
+Snowboarder * BoarderRace::displayWinner(Snowboarder *curr, Snowboarder *winner) {
+  if(!curr) return winner;
+  if(curr->getScore() >= winner->getScore()) winner = curr;
+  return displayWinner(curr->getNext(), winner);
+}
+
+const int Snowboarder::getScore() const {
+  return score;
 }
 
 SkiierRace::SkiierRace()
@@ -447,5 +476,24 @@ bool SkiierRace::display(Skiier *curr) {
   }
   cout << "Welcome Skiier " << curr->getName() << "!\n";
   return display(curr->getNext());
+}
+
+bool SkiierRace::displayWinner() {
+  if(!head) return false;
+  Skiier *winner = displayWinner(head->getNext(), head->getNext());
+  cout << "\nThe winner of the Skiier Race and Obstacle Course is " << winner->getName() << " with a time finished of " <<
+  "of " << winner->getTime() << "!\n";
+  return true;
+
+}
+
+Skiier *SkiierRace::displayWinner(Skiier *curr, Skiier *winner) {
+  if(curr == head) { // final case to end
+    if(curr->getTime() <= winner->getTime()) 
+      curr = winner;
+    return winner;
+  }
+  if(curr->getTime() <= winner->getTime()) winner = curr;
+  return displayWinner(curr->getNext(), winner);
 }
 

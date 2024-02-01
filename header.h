@@ -30,7 +30,7 @@ public:
   bool setFinished();             // Declare that the racer has finished the race
   const bool getFinished() const; // Return whether or not the racer has finished the race
 protected:
-  int secretNumber; // Secret number to use RNG to determine how the racer acts
+  int secretNumber;
   bool isFinished;  // Keeps track of whether the racer has finished
 private:
   char *name; // Stores name of participant
@@ -46,8 +46,8 @@ public:
   ~Snowmobiler();
 
   const char *getName() const;              // Return name of participant
-  int accelerate(const int secretNumber); // Changes the speed of the snowmobile depending on the number passed in
-  int nitroBoost(const int secretNumber); // Does a nitrous boost for long distance but can fail and stall the engine, disqualifying the Snowmobiler
+  int accelerate(); // Changes the speed of the snowmobile depending on the number passed in
+  int nitroBoost(); // Does a nitrous boost for long distance but can fail and stall the engine, disqualifying the Snowmobiler
   const bool isEngineStalled() const; // Returns whether or not the engine is stalled (disqualifying the Snowmobiler)
   const bool outOfGas() const; // Returns whether or not the gas level is below 15 (which deems the Snowmobiler out of gas), doesn't disqualify just means they are done progressing
 protected:
@@ -97,15 +97,15 @@ public:
   Skiier * getNext();             // Returns next Skiier from CLL
   bool setNext(Skiier * aSkiier); // Sets next Skiier node attached to this node
 
-  int navigateTerrain(int aNumber); // Navigates the mountain based on the RNG of the race track and unlike snowboarders' action, the Skiier can crash and disqualify itself
+  int navigateTerrain(); // Navigates the mountain based on the RNG of the race track and unlike snowboarders' action, the Skiier can crash and disqualify itself
   bool attemptKnockover(); // Attempts to knock over next racer in CLL-fashion
   bool setDisqualified();
   const bool getDisqualified() const; // Returns whether the racer is disqualified or not
+  const int getTime() const; // Time in which racer completed the race
 protected:
   Skiier *next; // Next node to attach nodes through CLL
 private:
-  bool finishedRace;
-  int timeLeft; // Time left before racer has to finish the race
+  int timeCompleted; // The time in which the racer completed the race
   bool isDisqualified; // If a skiier successfully knocks this one over then this one is disqualified
   string name;
 };
@@ -121,7 +121,6 @@ public:
   ~Race();
 
 protected:
-  int secretNumber; // This secret number will determine how contestants interact in the event
   // When combined with their own secret numbers
   bool hasStarted; // This determines whether the race has begun or not
   bool isFinished; // This determines whether the race is finished or not
@@ -163,11 +162,12 @@ public:
 
   bool startRace();
   bool endRace();
-  Snowboarder determineWinner(); // Determines the winner based on the highest score from tricks
+  bool displayWinner(); // Determines the winner based on the highest score from tricks
 protected:
   bool remove(const string aName, Snowboarder *curr, Snowboarder *temp);
   bool removeAll(Snowboarder *curr);
   bool display(Snowboarder *curr);
+  Snowboarder * displayWinner(Snowboarder *curr, Snowboarder *winner); // Determines the winner based on the highest score from tricks
 
 private:
   Snowboarder *head; // Head pointer to linear linked list of snowboarders
@@ -188,11 +188,12 @@ public:
 
   bool startRace();
   bool endRace();
-  Skiier determineWinner(); // Determines a winner based on who finished first
+  bool displayWinner(); // Determines a winner based on who finished first
 protected:
   bool remove(const string aName, Skiier *curr, Skiier *temp);
   bool removeAll(Skiier *head);
   bool display(Skiier *curr);
+  Skiier * displayWinner(Skiier *curr, Skiier *winner); 
 
 private:
   Skiier *head; // Head pointer to circular linked list of skiiers

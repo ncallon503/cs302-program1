@@ -2,7 +2,10 @@
 
 int main() {
 
+  srand(time(0)); // Seeds the random number generator
+
   string input = "-1";
+  bool raceWatched = false;
 
   cout << "\nWelcome to the Winter Olympics! Which race would you like to spectate today?\n";
   
@@ -17,12 +20,16 @@ int main() {
     cin >> input;
   }
 
+  MobileRace * theMobileRace = nullptr;
+  BoarderRace * theBoarderRace = nullptr;
+  SkiierRace * theSkiierRace = nullptr;
+
   while(input != "0") {
 
     switch(stoi(input)) {
       case 1: {
 
-        MobileRace * theMobileRace = new MobileRace();
+        theMobileRace = new MobileRace();
         theMobileRace->addSnowmobiler("Johnny Test");
         theMobileRace->addSnowmobiler("Bear Grylls");
         theMobileRace->addSnowmobiler("Gordon Ramsay");
@@ -35,30 +42,81 @@ int main() {
         cout << "Welcome to the Yearly Snowmobiler Distance Competition! Our contestants are:\n";
         theMobileRace->display();
        
-        //theMobileRace.startRace();
+        //theMobileRace->startRace();
 
         delete theMobileRace;
         theMobileRace = nullptr;
+
+        raceWatched = true;
       
         break;
       }
 
       case 2: {
 
+        theBoarderRace = new BoarderRace();
+        theBoarderRace->addSnowboarder("Mark Cuban");
+        theBoarderRace->addSnowboarder("LeBron James");
+        theBoarderRace->addSnowboarder("Kevin Durant");
+        theBoarderRace->addSnowboarder("Steph Curry");
+        theBoarderRace->addSnowboarder("Kobe Bryant");
+        theBoarderRace->addSnowboarder("Robin");
+        theBoarderRace->addSnowboarder("Batman");
+        theBoarderRace->addSnowboarder("Raven");
+
+        cout << "Welcome to the Seasonal Snowboarder Showoff! Our contestants are:\n";
+        theBoarderRace->display(); 
+       
+        //theBoarderRace->startRace();
+
+        theBoarderRace->displayWinner();
+
+        delete theBoarderRace;
+        theBoarderRace = nullptr;
+
+        raceWatched = true;
+
         break;
       }
 
       case 3: {
+
+        theSkiierRace = new SkiierRace();
+        theSkiierRace->addSkiier("Harley Quinn");
+        theSkiierRace->addSkiier("Joker");
+        theSkiierRace->addSkiier("Pikachu");
+        theSkiierRace->addSkiier("Mario");
+        theSkiierRace->addSkiier("Pac-Man");
+        theSkiierRace->addSkiier("Sonic");
+        theSkiierRace->addSkiier("Bowser");
+        theSkiierRace->addSkiier("Luigi");
+
+        cout << "Welcome to the Skiier Race and Obstacle Course! Our contestants are:\n";
+        theSkiierRace->display();
+       
+        //theSkiierRace->startRace();
+
+        theSkiierRace->displayWinner();
+
+        delete theSkiierRace;
+        theSkiierRace = nullptr;
+
+        raceWatched = true;
 
         break;
       }
 
       case 0: {
 
+        if(!raceWatched) cout << "Leaving that soon? Well, see you next time!\n";
+        else cout << "Hope you enjoyed and come back next year!";
+
         break;
       }
 
       default: {
+
+        cout << "Input not recognized.\n";
 
         break;
       }
