@@ -42,6 +42,8 @@ public:
   bool startRace();
   bool displayWinner(); // Determines the winner based on the furthest distance traveled
 protected:
+  const int accelerate();
+
 
 private:
   vector<Snowmobiler> racers; // The snowmobile race will have the racers stored in a vector

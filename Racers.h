@@ -47,9 +47,10 @@ public:
 
   const char *getName() const;              // Return name of participant
   int accelerate(); // Changes the speed of the snowmobile depending on the number passed in, extremely high numbers can reward or break the snowmobile altogether, although there are chances to come back
-  bool setEngineStalled(); // Sets the engine to stalled if engine is not, and vice versa
-  const bool isEngineStalled() const; // Returns whether or not the engine is stalled (disqualifying the Snowmobiler)
-  const bool outOfGas() const; // Returns whether or not the gas level is below 15 (which deems the Snowmobiler out of gas), doesn't disqualify just means they are done progressing
+  const bool setEngineStalled(); // Sets the engine to stalled if engine is not, and vice versa
+  const bool isEngineStalled(); // Returns whether or not the engine is stalled (disqualifying the Snowmobiler)
+  const bool outOfGas(); // Returns whether or not the gas level is below 15 (which deems the Snowmobiler out of gas), doesn't disqualify just means they are done progressing
+  const int getDistanceTraveled(); // Returns distance traveled
 protected:
 private:
   int gasLevel;         // Keeps track of gas level of the snowmobile

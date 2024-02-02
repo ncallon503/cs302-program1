@@ -55,6 +55,62 @@ bool MobileRace::display() {
   return true;
 }
 
+bool MobileRace::startRace() {
+  if (hasStarted) {
+    cout << "Race has already started.\n";
+    return false;
+  }
+  if(racers.size() == 0) {
+    cout << "No racers to start with.\n";
+    return false;
+  }
+
+  hasStarted = true;
+  
+  cout << "\nThe race has begun!\n\n";
+
+  cin.ignore();
+
+  for(int i = 0; i < 5; i++) // Has seven phases
+  {
+    cout << "<Press Enter to continue to next phase>\n";
+    cin.ignore();
+    this->accelerate();
+  }
+  cout << "<Press Enter to view the results>\n";
+  cin.ignore();
+  this->displayWinner();
+
+  return true;
+}
+
+const int MobileRace::accelerate() {
+  int totalDistanceTraveled;
+  for(long unsigned int i = 0; i < racers.size(); i++) {
+    totalDistanceTraveled += racers[i].accelerate();
+  }
+  cout << "\n";
+  return totalDistanceTraveled;
+}
+
+bool MobileRace::displayWinner() {
+  if(racers.size() == 0) return false;
+  int mostDistanceTraveled = 0;
+  char* nameOfRacer = new char[1];
+  strcpy(nameOfRacer, "");
+  for(long unsigned int i = 0; i < racers.size(); i++) {
+    if(racers[i].getDistanceTraveled() >= mostDistanceTraveled) {
+      mostDistanceTraveled = racers[i].getDistanceTraveled();
+      if(nameOfRacer) delete [] nameOfRacer;
+      nameOfRacer = new char [strlen(racers[i].getName()) + 1];
+      strcpy(nameOfRacer, racers[i].getName());
+    }
+  }
+  cout << "The winner of the Snowmobiler Distance Competition is " << nameOfRacer << " who traveled " << mostDistanceTraveled << " meters!\n";
+  if(nameOfRacer) delete [] nameOfRacer;
+  return true;
+}
+
 
 BoarderRace::BoarderRace()
 {
@@ -78,33 +134,40 @@ bool BoarderRace::startRace() {
 
   hasStarted = true;
   
-  cout << "The race has begun!" << "\n";
-  cout << "\n";
+  cout << "\nThe race has begun!\n\n";
 
   // First phase
 
+  cin.ignore();
   this->performTrick(head);
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Second phase
 
   this->attemptKnockover(head);
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Third phase
 
   this->performTrick(head);
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Fourth phase
 
   this->attemptKnockover(head);
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Fifth phase
 
   this->performTrick(head);
-  cout << "\n";
+  cout << "\n<Press Enter to view the results>\n";
+  cin.ignore();
+
+
 
   this->displayWinner();
   cout << "\n";
@@ -227,32 +290,38 @@ bool SkiierRace::startRace() {
   hasStarted = true;
   
   cout << "The race has begun!" << "\n";
-  cout << "\n";
+  cout << "\n<Press Enter to continue to the first phase>\n";
+  cin.ignore();
 
   // First phase
 
   this->navigateTerrain(head->getNext(), "snowy hillside");
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Second phase
 
   this->attemptKnockover(head->getNext());
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Third phase
 
   this->navigateTerrain(head->getNext(), "winding alpines");
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Fourth phase
 
   this->attemptKnockover(head->getNext());
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   // Fifth phase
 
   this->navigateTerrain(head->getNext(), "rocky finish line");
-  cout << "\n";
+  cout << "\n<Press Enter to continue to next phase>\n";
+  cin.ignore();
 
   this->displayWinner();
   cout << "\n";
@@ -341,7 +410,7 @@ bool SkiierRace::displayWinner() {
   if(!head) return false;
   Skiier *firstNon =  firstNonDisqualified(head->getNext());
   Skiier *winner = displayWinner(head->getNext(), firstNon);
-  cout << "\nThe winner of the Skiier Race and Obstacle Course is " << winner->getName() << winner->getDisqualified() << " with a time finished of " <<
+  cout << "\nThe winner of the Skiier Race and Obstacle Course is " << winner->getName() << " with a time finished of " <<
   "of " << winner->getTime() << " seconds!\n";
   return true;
 

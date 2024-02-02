@@ -43,7 +43,7 @@ int main() {
         cout << "Welcome to the Yearly Snowmobiler Distance Competition! Our contestants are:\n";
         theMobileRace->display();
        
-        //theMobileRace->startRace();
+        theMobileRace->startRace();
 
         delete theMobileRace;
         theMobileRace = nullptr;
@@ -138,82 +138,7 @@ int main() {
 
   cout << "Thank you for attending our Winter Sporting Events!\n";
 
-  Skiier testSkiier;
-  Skiier testSkiier2 = testSkiier;
-
-  Snowboarder testSnowboarder("testSnowboarder");
-  Snowboarder testSnowboarder2 = testSnowboarder;
-
-  cout << testSnowboarder2.getName() << "\n";
-  
-  Snowboarder aSnowboarer0("test");
-
-  Snowmobiler aSnowmobiler("testtest\n");
-  Snowmobiler Snowmobiler2 = aSnowmobiler;
-
-  cout << "the name: " << aSnowmobiler.getName() << "\n\n\n\n";
-
-  MobileRace aRace;
-
-  aRace.addSnowmobiler("test 123");
-  aRace.addSnowmobiler("a snowmobiler1");
-  aRace.addSnowmobiler("a snowmobiler2");
-  aRace.addSnowmobiler("a snowmobiler3");
-  aRace.addSnowmobiler("a snowmobiler4");
-
-  aRace.remove("bla");
-  aRace.remove("a snowmobiler1");
-
-  BoarderRace aBoard;
-  
-  SkiierRace aSki;
-
-  Skiier *aSkiier = new Skiier("a name");
-
-  aSki.addSkiier("a skiier");
-  aSki.addSkiier("a skiier2");
-  aSki.addSkiier("a skiier3");
-  aSki.addSkiier("a skiier4");
-  aSki.addSkiier("a skiier5");
-  aSki.addSkiier("a skiier6");
-
-  aBoard.addSnowboarder("a boarder");
-  aBoard.addSnowboarder("a boarder1");
-  aBoard.addSnowboarder("a boarder2");
-  aBoard.addSnowboarder("a boarder3");
-  aBoard.addSnowboarder("a boarder4");
-  aBoard.addSnowboarder("a boarder5");
-
-  aSki.remove("a skiier2");
-
-  //aSki.addSkiier("skiier1");
-
-  Snowboarder aSnowboarder;
-
-
-  // Skiier aSkiier("test");
-
-  Skiier aSkiier2(*aSkiier);
-
-  Skiier aSkiier3 = aSkiier2;
-
-  cout << aSkiier2.getName() << "\n";
-
-  cout << aSkiier3.getName() << "\n";
-
-//  int test = rand() % 100 + 1;
-
-  char *name = new char[5];
-  strcpy(name, "test");
-
-  Person aPerson(name);
-
-  Person person2;
-
-  delete [] name;
-
-  delete aSkiier;
-
   return 0;
+
 }
 

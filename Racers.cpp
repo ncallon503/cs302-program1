@@ -79,6 +79,7 @@ Snowmobiler::Snowmobiler(): Person()
   this->name = nullptr;
   gasLevel = 100;
   distanceTraveled = 0;
+  engineStalled = false;
 }
 
 Snowmobiler::Snowmobiler(const Snowmobiler &aSnowmobiler): Person(aSnowmobiler)
@@ -90,6 +91,7 @@ Snowmobiler::Snowmobiler(const Snowmobiler &aSnowmobiler): Person(aSnowmobiler)
   }
   gasLevel = aSnowmobiler.gasLevel;
   distanceTraveled = aSnowmobiler.distanceTraveled;
+  engineStalled = aSnowmobiler.engineStalled;
 }
 
 Snowmobiler::Snowmobiler(const char * aName): Person(aName)
@@ -103,6 +105,7 @@ Snowmobiler::Snowmobiler(const char * aName): Person(aName)
   }
   this->gasLevel = 100;
   this->distanceTraveled = 0;
+  engineStalled = false;
 }
 
 Snowmobiler Snowmobiler::operator=(const Snowmobiler &aSnowmobiler)
@@ -118,6 +121,7 @@ Snowmobiler Snowmobiler::operator=(const Snowmobiler &aSnowmobiler)
   this->gasLevel = aSnowmobiler.gasLevel;
   this->secretNumber = aSnowmobiler.secretNumber;
   this->isFinished = aSnowmobiler.isFinished;
+  this->engineStalled = aSnowmobiler.engineStalled;
   return *this;
 }
 
@@ -129,7 +133,7 @@ Snowmobiler::~Snowmobiler()
   }
 }
 
-int accelerate() {
+int Snowmobiler::accelerate() {
 
   // If racer is out of gas
   if(outOfGas()) {
@@ -141,14 +145,15 @@ int accelerate() {
 
   // If racer's engine is stalled
 
-  if(isEngineStalled()) {
+  if(engineStalled) {
     if(randNumber <= 250) {
-    cout << this->getName() "'s engine is stalling and they are trying to fix it.\n";
+    cout << this->getName() << "'s engine is stalling and they are trying to fix it.\n";
     return 0;
     } else {
     this->setEngineStalled();
-    cout << this->getName() << " has fixed their engine and is going again! Has traveled another " << randNumber / 2 << " meter.\n";
+    cout << this->getName() << " has fixed their engine and is going again! Has traveled another " << randNumber / 2 << " meters.\n";
     distanceTraveled += randNumber / 2;
+    gasLevel -= randNumber / 10;
     return randNumber / 2;
     }
   }
@@ -158,40 +163,47 @@ int accelerate() {
   if(randNumber <= 250) {
     cout << this->getName() << " is accelerating and just traveled " << randNumber << " meters!\n";
     distanceTraveled += randNumber;
+    gasLevel -= randNumber / 10;
     return randNumber;
   } else if (randNumber <= 430) { // Racer traveling extremely fast
     cout << this->getName() << " is traveling extremely fast and just went " << randNumber << " meters!\n";
     distanceTraveled += randNumber;
+    gasLevel -= randNumber / 10;
     return randNumber;
   } else if (randNumber <= 460) {
     cout << this->getName() << " is traveling so fast they've used their nitrous and gone 1.5x the distance at " << randNumber * 1.5 << " meters!\n";
     distanceTraveled += randNumber * 1.5;
+    gasLevel -= randNumber / 8; // Uses slightly more gas but not as much percentage wise of distance with nitro
     return randNumber * 1.5;
   } else {
-    cout << this->getName() << " was going so fast that their nitrous and engine are now stalling.";
+    cout << this->getName() << " was going so fast that their nitrous and engine are now stalling.\n";
     setEngineStalled();
+    gasLevel -= 5;
     return 0;
   }
 
 }
 
-const bool setEngineStalled() {
+const bool Snowmobiler::setEngineStalled() {
   if(this->engineStalled) {
     this->engineStalled = false;
     return false;
   }
-  cout << this->getName() << "'s engine has stalled!\n";
   this->engineStalled = true;
   return true;
 }
 
-const bool isEngineStalled() {
+const bool Snowmobiler::isEngineStalled() {
   return engineStalled;
 }
 
-const bool outOfGas() {
+const bool Snowmobiler::outOfGas() {
   if(gasLevel <= 15) return true;
   else return false;
+}
+
+const int Snowmobiler::getDistanceTraveled() {
+  return distanceTraveled;
 }
 
 const char *Snowmobiler::getName() const
