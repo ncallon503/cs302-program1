@@ -129,6 +129,71 @@ Snowmobiler::~Snowmobiler()
   }
 }
 
+int accelerate() {
+
+  // If racer is out of gas
+  if(outOfGas()) {
+    cout << this->getName() << " is out of gas and has gone as far as they can.\n";
+    return 0;
+  }
+
+  int randNumber = ((rand()  + secretNumber) % 500) + 1;
+
+  // If racer's engine is stalled
+
+  if(isEngineStalled()) {
+    if(randNumber <= 250) {
+    cout << this->getName() "'s engine is stalling and they are trying to fix it.\n";
+    return 0;
+    } else {
+    this->setEngineStalled();
+    cout << this->getName() << " has fixed their engine and is going again! Has traveled another " << randNumber / 2 << " meter.\n";
+    distanceTraveled += randNumber / 2;
+    return randNumber / 2;
+    }
+  }
+
+  // Racer travelling at normal speeds
+
+  if(randNumber <= 250) {
+    cout << this->getName() << " is accelerating and just traveled " << randNumber << " meters!\n";
+    distanceTraveled += randNumber;
+    return randNumber;
+  } else if (randNumber <= 430) { // Racer traveling extremely fast
+    cout << this->getName() << " is traveling extremely fast and just went " << randNumber << " meters!\n";
+    distanceTraveled += randNumber;
+    return randNumber;
+  } else if (randNumber <= 460) {
+    cout << this->getName() << " is traveling so fast they've used their nitrous and gone 1.5x the distance at " << randNumber * 1.5 << " meters!\n";
+    distanceTraveled += randNumber * 1.5;
+    return randNumber * 1.5;
+  } else {
+    cout << this->getName() << " was going so fast that their nitrous and engine are now stalling.";
+    setEngineStalled();
+    return 0;
+  }
+
+}
+
+const bool setEngineStalled() {
+  if(this->engineStalled) {
+    this->engineStalled = false;
+    return false;
+  }
+  cout << this->getName() << "'s engine has stalled!\n";
+  this->engineStalled = true;
+  return true;
+}
+
+const bool isEngineStalled() {
+  return engineStalled;
+}
+
+const bool outOfGas() {
+  if(gasLevel <= 15) return true;
+  else return false;
+}
+
 const char *Snowmobiler::getName() const
 {
   if (name == nullptr)
