@@ -40,8 +40,7 @@ public:
   bool display();
 
   bool startRace();
-  bool endRace();
-  Snowmobiler determineWinner(); // Determines the winner based on the furthest distance traveled
+  bool displayWinner(); // Determines the winner based on the furthest distance traveled
 protected:
 
 private:
@@ -62,12 +61,13 @@ public:
   bool display();
 
   bool startRace();
-  bool endRace();
   bool displayWinner(); // Determines the winner based on the highest score from tricks
 protected:
   bool remove(const string aName, Snowboarder *curr, Snowboarder *temp);
   bool removeAll(Snowboarder *curr);
   bool display(Snowboarder *curr);
+  int performTrick(Snowboarder *curr); // Makes all snowboarders perform a trick and returns total score of all added up
+  bool attemptKnockover(Snowboarder *curr); // Makes all snowboarders attempt to knock down the one in front of them (brutal I know) and returns true or false if someone was knocked over
   Snowboarder * displayWinner(Snowboarder *curr, Snowboarder *winner); // Determines the winner based on the highest score from tricks
 
 private:
@@ -88,13 +88,15 @@ public:
   bool display();
 
   bool startRace();
-  bool endRace();
   bool displayWinner(); // Determines a winner based on who finished first
 protected:
   bool remove(const string aName, Skiier *curr, Skiier *temp);
   bool removeAll(Skiier *head);
   bool display(Skiier *curr);
+  int navigateTerrain(Skiier *curr, const string terrain);
+  bool attemptKnockover(Skiier *curr);
   Skiier * displayWinner(Skiier *curr, Skiier *winner); 
+  Skiier * firstNonDisqualified(Skiier *curr);
 
 private:
   Skiier *head; // Head pointer to circular linked list of skiiers

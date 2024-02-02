@@ -2,7 +2,7 @@
 
 Person::Person() : name(nullptr)
 {
-  this->secretNumber = rand() % 1000 + 1;
+  this->secretNumber = rand() % 100 + 1;
   this->isFinished = false;
 }
 
@@ -11,7 +11,7 @@ Person::Person(const char *aName)
   this->name = new char[strlen(aName) + 1]; // Allocate separate memory for Person's name
   strcpy(this->name, aName);                // Copy characters from other name to Person's name
   this->isFinished = false;
-  this->secretNumber = rand() % 1000 + 1;
+  this->secretNumber = rand() % 100 + 1;
 }
 
 Person::Person(const Person &aPerson)
@@ -142,6 +142,7 @@ Snowboarder::Snowboarder(): Person()
   this->name = "";
   this->next = nullptr;
   this->score = 0;
+  this->isDisqualified = false;
 }
 
 Snowboarder::Snowboarder(const string aName): Person()
@@ -149,6 +150,7 @@ Snowboarder::Snowboarder(const string aName): Person()
   this->name = aName;
   this->next = nullptr;
   this->score = 0;
+  this->isDisqualified = false;
 }
 
 Snowboarder::Snowboarder(const Snowboarder &aSnowboarder): Person(aSnowboarder)
@@ -156,6 +158,7 @@ Snowboarder::Snowboarder(const Snowboarder &aSnowboarder): Person(aSnowboarder)
   this->name = aSnowboarder.name;
   this->score = aSnowboarder.score;
   this->next = nullptr;
+  this->isDisqualified = aSnowboarder.isDisqualified;
 }
 
 Snowboarder Snowboarder::operator=(const Snowboarder &aSnowboarder)
@@ -165,12 +168,49 @@ Snowboarder Snowboarder::operator=(const Snowboarder &aSnowboarder)
   this->isFinished = aSnowboarder.isFinished;
   this->score = aSnowboarder.score;
   this->name = aSnowboarder.name;
+  this->isDisqualified = aSnowboarder.isDisqualified;
   this->next = nullptr; //  Due to volatile activities we will set next pointer to null and manually assign it rather than having this "deep" copy point to another Snowboarder that might not know about it
   return *this;
 }
 
 Snowboarder::~Snowboarder()
 {
+}
+
+int Snowboarder::performTrick() {
+  if(this->isDisqualified) return 0;
+  int randNumber = ((rand()  + secretNumber) % 100) + 1;
+  if(randNumber <= 33)
+    cout << this->getName() << " performed an Ollie for " << randNumber << " points!\n";
+  else if (randNumber <= 67)
+    cout << this->getName() << " performed a nose press for " << randNumber << " points!\n";
+  else cout << this->getName() << " performed a tripod for " << randNumber << " points!\n";
+  score += randNumber;
+  return randNumber;
+}
+
+bool Snowboarder::attemptKnockover() {
+  if(this->getNext() == nullptr) return false;
+  if(this->getNext()->getDisqualified() == true) return false;
+  int randNumber = ((rand() + secretNumber) % 100) + 1;
+  if(randNumber <= 25) {
+    this->getNext()->setDisqualified();
+    cout << this->getName() << " has knocked down " << this->getNext()->getName() << " and disqualified them!\n";
+    return true;
+  } else {
+    cout << this->getName() << " has attempted to knock down " << this->getNext()->getName() << " and failed!\n";
+    return false;
+  }
+}
+
+bool Snowboarder::setDisqualified() {
+  if(this->isDisqualified == true) return false;
+  this->isDisqualified = true;
+  return true;
+}
+
+const bool Snowboarder::getDisqualified() {
+  return this->isDisqualified;
 }
 
 const string Snowboarder::getName() const
@@ -248,3 +288,50 @@ const int Skiier::getTime() const {
   return timeCompleted;
 }
 
+bool Skiier::setDisqualified() {
+  if(this->isDisqualified == true) return false;
+  this->isDisqualified = true;
+  return true;
+}
+
+const bool Skiier::getDisqualified() {
+  return this->isDisqualified;
+}
+
+
+int Skiier::navigateTerrain(const string terrain) { // If the skiiers go too fast they crash, but are complimented if they make good time
+  if(this->isDisqualified) return 0;
+  int randNumber = ((rand()  + secretNumber) % 100) + 1;
+  if(randNumber <= 13) {
+    cout << this->getName() << " was going too fast and has crashed!\n";
+    this->setDisqualified();
+    return 0;
+    }
+  else if (randNumber <= 25) {
+    cout << this->getName() << " has navigated the " << terrain << " in a whopping " << randNumber << " seconds!\n";
+  } else {
+    cout << this->getName() << " has navigated the " << terrain << " in " << randNumber << " seconds!\n";
+  }
+  this->timeCompleted += randNumber;
+  return randNumber;
+}
+
+bool Skiier::attemptKnockover() {
+  if(this->isDisqualified) return false;
+  if(this->getNext() == this) {
+    cout << "Can't knock over itself!\n";
+    return false;
+  }
+  if(this->getNext() == nullptr) return false;
+  if(this->getNext()->getDisqualified() == true) return false;
+  int randNumber = ((rand() + secretNumber) % 100) + 1;
+  if(randNumber <= 15) {
+    this->getNext()->setDisqualified();
+    cout << this->getName() << " has knocked down " << this->getNext()->getName() << " and disqualified them!\n";
+    return true;
+  } else {
+    cout << this->getName() << " has attempted to knock down " << this->getNext()->getName() << " and failed!\n";
+    return false;
+  }
+
+}

@@ -68,9 +68,7 @@ int main() {
         cout << "Welcome to the Seasonal Snowboarder Showoff! Our contestants are:\n";
         theBoarderRace->display(); 
        
-        //theBoarderRace->startRace();
-
-        theBoarderRace->displayWinner();
+        theBoarderRace->startRace();
 
         delete theBoarderRace;
         theBoarderRace = nullptr;
@@ -95,9 +93,7 @@ int main() {
         cout << "Welcome to the Skiier Race and Obstacle Course! Our contestants are:\n";
         theSkiierRace->display();
        
-        //theSkiierRace->startRace();
-
-        theSkiierRace->displayWinner();
+        theSkiierRace->startRace();
 
         delete theSkiierRace;
         theSkiierRace = nullptr;

@@ -48,13 +48,14 @@ public:
   const char *getName() const;              // Return name of participant
   int accelerate(); // Changes the speed of the snowmobile depending on the number passed in
   int nitroBoost(); // Does a nitrous boost for long distance but can fail and stall the engine, disqualifying the Snowmobiler
+  bool setEngineStalled();
   const bool isEngineStalled() const; // Returns whether or not the engine is stalled (disqualifying the Snowmobiler)
   const bool outOfGas() const; // Returns whether or not the gas level is below 15 (which deems the Snowmobiler out of gas), doesn't disqualify just means they are done progressing
 protected:
 private:
   int gasLevel;         // Keeps track of gas level of the snowmobile
   int distanceTraveled; // Keeps track of distance traveled of the snowmobile
-  bool engineStalled;
+  bool engineStalled; // Keeps track of whether the engine has stalled, preventing the snowmobiler from continuing
   char *name;
 };
 
@@ -70,10 +71,10 @@ public:
   const string getName() const;
   Snowboarder * getNext();                   // Retrieves the next snowboarder as they are attached through a LLL
   bool setNext(Snowboarder *aSnowboarder); // Sets the next snowboarder node
-  int performTrick(int aNumber);            // Performs a trick returning a score based on the number passed in
+  int performTrick();            // Performs a trick returning a score based on the number passed in
   bool attemptKnockover(); // Attempts to knock over next racer in LLL-fashion
   bool setDisqualified();
-  const bool getDisqualified() const; // Returns whether the racer is disqualified or not
+  const bool getDisqualified(); // Returns whether the racer is disqualified or not
   const int getScore() const; // Shows the score of the snowboarder
 
 protected:
@@ -97,10 +98,10 @@ public:
   Skiier * getNext();             // Returns next Skiier from CLL
   bool setNext(Skiier * aSkiier); // Sets next Skiier node attached to this node
 
-  int navigateTerrain(); // Navigates the mountain based on the RNG of the race track and unlike snowboarders' action, the Skiier can crash and disqualify itself
+  int navigateTerrain(const string terrain); // Navigates the mountain based on the RNG of the race track and unlike snowboarders' action, the Skiier can crash and disqualify itself
   bool attemptKnockover(); // Attempts to knock over next racer in CLL-fashion
   bool setDisqualified();
-  const bool getDisqualified() const; // Returns whether the racer is disqualified or not
+  const bool getDisqualified(); // Returns whether the racer is disqualified or not
   const int getTime() const; // Time in which racer completed the race
 protected:
   Skiier *next; // Next node to attach nodes through CLL
