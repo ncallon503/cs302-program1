@@ -1,3 +1,9 @@
+/* The racers all act differently despite them having similarities, and they all have separate win conditions.
+The Snowmobilers win based on the most distance traveled, the Snowboarders win based on who achieved the highest score,
+and the Skiiers win based on who finished the race the fastest. All 3 have a method that can stop them from making progress,
+but unlike the Snowmobiler, which is temporary, if you are knocked down as a Snowboarder or Skiier, you are out, and 
+cannot win anymore. */
+
 #include "Racers.h"
 
 Person::Person() : name(nullptr)

@@ -1,8 +1,8 @@
-/* Nathan Callon, CS302, Karla Fant, 1/19/2024
-In this program I'll be constructing races using 2 different parent classes and 3 different
-child classes for each base class. The parent classes will not be instantiated in the main program
-but the children will, and this will help reduce redundancy in the code. The races will be
-separated into Snowmobilers, Snowboarders and Skiiers.*/
+/* In this file I define all the features of the Person class and its child classes, which are each respective type of racer,
+being Snowmobiler, Snowboarder, and Skiier. They all share some similarites of the Person class which is mainly containing
+a randomly generated secretNumber, and a bool tracking whether they are finished or not. The name types are different
+for two of the child classes (Snowboarder and Skiier) because those use strings, so the getName() is re-implemented
+in the child classes as well, but they still use the initialization list for other aspects of the Person class.*/
 
 #ifndef _RACERS_
 #define _RACERS_

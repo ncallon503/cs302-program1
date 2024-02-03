@@ -1,3 +1,11 @@
+/* Functionality wise, the Race classes all use different ways to manage their racers, as the MobileRace
+uses STL vectors and the functions that come with them, meanwhile the BoarderRace and SkiierRace have
+manually implemented recursive functions I made that have the basics of add (or insert), remove, removeAll,
+and display. In my case I also have displayWinner and many functions to manage the specific races
+that use recursion as well like using a wrapper for "performTrick" which will use a protected function
+to pass in the head and recursively go through all the racers and perform a trick. The dynamic memory was
+a little tricky to manage at first but after making the destructors more robust I stopped having and memory leaks. */
+
 #include "Races.h"
 
 Race::Race()

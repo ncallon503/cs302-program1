@@ -1,3 +1,10 @@
+/* Nathan Callon, CS302, Karla Fant, 1/19/2024
+In this program I'll be constructing races using 2 different parent classes and 3 different
+child classes for each base class. The parent classes will not be instantiated in the main program
+but the children will, and this will help reduce redundancy in the code. The races will be
+separated into Snowmobilers, Snowboarders and Skiiers. The specifics in the differences between
+the classes and the way memory has to be managed differently is in the header and .cpp files. */
+
 #include "Racers.h"
 #include "Races.h"
 

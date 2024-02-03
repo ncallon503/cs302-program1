@@ -1,8 +1,7 @@
-/* Nathan Callon, CS302, Karla Fant, 1/19/2024
-In this program I'll be constructing races using 2 different parent classes and 3 different
-child classes for each base class. The parent classes will not be instantiated in the main program
-but the children will, and this will help reduce redundancy in the code. The races will be
-separated into Snowmobilers, Snowboarders and Skiiers.*/
+/* For the Race class, all the races are handled very differently but do share the similar booleans of
+hasStarted and isFinished which they inherit from the parent class. The MobileRace represents the Snowmobiler
+race and contains a vector of Snowmobilers it manages, the BoarderRace represents the Snowboarder race and 
+contains a LLL of Snowboarders, and the SkiierRace contains a CLL of Skiiers. */
 
 #ifndef _RACES_
 #define _RACES_
